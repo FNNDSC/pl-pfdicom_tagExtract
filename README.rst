@@ -38,7 +38,7 @@ Invariably, some debugging will be required. In order to debug efficiently, map 
 
 .. code-block:: bash
 
-    docker run --rm -v $(pwd)/in:/incoming -v $(pwd)/out:/outgoing          \
+    docker run -it --rm -v $(pwd)/in:/incoming -v $(pwd)/out:/outgoing      \
             -v $(pwd)/dcm_tagExtract/dcm_tagExtract.py:/usr/src/dcm_tagExtract/dcm_tagExtract.py  \
             -v $(pwd)/dcm_tagExtract/pfdicom_tagExtract.py:/usr/local/lib/python3.5/dist-packages/pfdicom_tagExtract/pfdicom_tagExtract.py \
             fnndsc/pl-pfdicom_tagextract dcm_tagExtract.py                  \
