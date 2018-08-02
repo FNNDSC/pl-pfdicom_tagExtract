@@ -32,7 +32,7 @@ class Dcm_tagExtract(ChrisApp):
     TYPE                    = 'ds'
     DESCRIPTION             = 'This app performs a recursive walk down an input tree, and for each location with a DICOM file, will generate a report in the corresponding location in the output tree.'
     DOCUMENTATION           = 'https://github.com/FNNDSC/pfdicom_tagExtract'
-    VERSION                 = '0.1'
+    VERSION                 = '1.0'
     ICON                    = '' # url of an icon image
     LICENSE                 = 'Opensource (MIT)'
     MAX_NUMBER_OF_WORKERS   = 1  # Override with integer value
@@ -199,7 +199,8 @@ class Dcm_tagExtract(ChrisApp):
                         json                = options.jsonReturn   
                     )
         if options.b_version:
-            print(pf_dicom_tagExtract.str_version)
+            print('Plugin Version: %s' % Dcm_tagExtract.VERSION)
+            print('Internal pfdicom_tagExtract Version: %s' % pf_dicom_tagExtract.str_version)
             sys.exit(0)
 
         d_pfdicom_tagExtract = pf_dicom_tagExtract.run(timerStart = True)
