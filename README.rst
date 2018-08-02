@@ -26,7 +26,7 @@ Assign an "input" directory to ``/incoming`` and an "output" directory to ``/out
             -m 'm:%_nospc|-_ProtocolName.jpg'                           \
             -s 3:none --useIndexhtml                                    \
             -t raw,json,html,dict,col,csv                               \
-            --threads 0 -v 2 -e dcm                                     \
+            --threads 0 -v 2 -e .dcm                                    \
             /incoming /outgoing
 
 Assuming that ``$(pwd)/in`` contains a tree of DICOM files, then the above will generate, for each leaf directory node in ``$(pwd)/in`` that contains files satisfying the search constraint of ending in ``.dcm``, a set of text file reports based on the DICOM tags. Also, an ``index.html`` will be generated containing an image of the best guess of the center of the image space in that particular directory.
@@ -46,7 +46,7 @@ Invariably, some debugging will be required. In order to debug efficiently, map 
             -m 'm:%_nospc|-_ProtocolName.jpg'                               \
             -s 3:none --useIndexhtml                                        \
             -t raw,json,html,dict,col,csv                                   \
-            --threads 0 -v 2 -e dcm                                         \
+            --threads 0 -v 2 -e .dcm                                        \
             /incoming /outgoing
 
 This assumes that the source code the underlying ``pfdicom_tagExtract.py`` module is accessible as shown.
