@@ -20,7 +20,7 @@ Assign an "input" directory to ``/incoming`` and an "output" directory to ``/out
 
 .. code-block:: bash
 
-    docker run --rm -v $(pwd)/in:/incoming -v $(pwd)/out:/outgoing      \
+    docker run -it --rm -v $(pwd)/in:/incoming -v $(pwd)/out:/outgoing  \
             fnndsc/pl-pfdicom_tagextract dcm_tagExtract.py              \
             -o '%_md5|6_PatientID-%PatientAge'                          \
             -m 'm:%_nospc|-_ProtocolName.jpg'                           \
