@@ -141,7 +141,7 @@ class Dcm_tagExtract(ChrisApp):
                             dest        = 'synopsis',
                             action      = 'store_true',
                             optional    = True,
-                            default = False)
+                            default     = False)
         self.add_argument("--threads",
                             help        = "number of threads for innermost loop processing",
                             type        = str,
