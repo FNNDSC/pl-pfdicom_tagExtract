@@ -1,57 +1,130 @@
-#                                                            _
-# dcm_tagExtract ds app
 #
-# (c) 2016 Fetal-Neonatal Neuroimaging & Developmental Science Center
+# dcm_tagExtract ds ChRIS plugin app
+#
+# (c) 2021 Fetal-Neonatal Neuroimaging & Developmental Science Center
 #                   Boston Children's Hospital
 #
 #              http://childrenshospital.org/FNNDSC/
 #                        dev@babyMRI.org
 #
 
-import os
-
-# import the Chris app superclass
 from chrisapp.base import ChrisApp
-
 
 # import the pfdicom_tagExtract module
 import  pfdicom_tagExtract
 import  pudb
 import  sys
+import os
+
+Gstr_title = r"""
+
+     _                 _              _____     _                  _   
+    | |               | |            |  ___|   | |                | |  
+  __| | ___ _ __ ___  | |_ __ _  __ _| |____  _| |_ _ __ __ _  ___| |_ 
+ / _` |/ __| '_ ` _ \ | __/ _` |/ _` |  __\ \/ / __| '__/ _` |/ __| __|
+| (_| | (__| | | | | || || (_| | (_| | |___>  <| |_| | | (_| | (__| |_ 
+ \__,_|\___|_| |_| |_| \__\__,_|\__, \____/_/\_\\__|_|  \__,_|\___|\__|
+                   ______        __/ |                                 
+                  |______|      |___/                                  
+
+"""
+
+Gstr_synopsis = """
+
+(Edit this in-line help for app specifics. At a minimum, the 
+flags below are supported -- in the case of DS apps, both
+positional arguments <inputDir> and <outputDir>; for FS and TS apps
+only <outputDir> -- and similarly for <in> <out> directories
+where necessary.)
+
+    NAME
+
+       dcm_tagExtract.py 
+
+    SYNOPSIS
+
+        dcm_tagExtract                                                  \\
+            [-h] [--help]                                               \\
+            [--json]                                                    \\
+            [--man]                                                     \\
+            [--meta]                                                    \\
+            [--savejson <DIR>]                                          \\
+            [-v <level>] [--verbosity <level>]                          \\
+            [--version]                                                 \\
+            <inputDir>                                                  \\
+            <outputDir> 
+
+    BRIEF EXAMPLE
+
+        * Bare bones execution
+
+            docker run --rm -u $(id -u)                             \
+                -v $(pwd)/in:/incoming -v $(pwd)/out:/outgoing      \
+                fnndsc/pl-pfdicom_tagExtract dcm_tagExtract                        \
+                /incoming /outgoing
+
+    DESCRIPTION
+
+        `dcm_tagExtract.py` ...
+
+    ARGS
+
+        [-h] [--help]
+        If specified, show help message and exit.
+        
+        [--json]
+        If specified, show json representation of app and exit.
+        
+        [--man]
+        If specified, print (this) man page and exit.
+
+        [--meta]
+        If specified, print plugin meta data and exit.
+        
+        [--savejson <DIR>] 
+        If specified, save json representation file to DIR and exit. 
+        
+        [-v <level>] [--verbosity <level>]
+        Verbosity level for app. Not used currently.
+        
+        [--version]
+        If specified, print version number and exit. 
+"""
+
 
 class Dcm_tagExtract(ChrisApp):
     """
-    This app performs a recursive walk down an input tree, and for each location with a DICOM file, will generate a report in the corresponding location in the output tree..
+    This app performs a recursive walk down an input tree, and for each location with a DICOM file, will generate a report in the corresponding location in the output tree.
     """
-    AUTHORS                 = 'FNNDSC (dev@babyMRI.org)'
-    SELFPATH                = os.path.dirname(os.path.abspath(__file__))
-    SELFEXEC                = os.path.basename(__file__)
-    EXECSHELL               = 'python3'
+    PACKAGE                 = __package__
     TITLE                   = 'A DICOM tag extractor/reporting tool. Generates reports based on DICOM header information.'
     CATEGORY                = 'DICOM'
     TYPE                    = 'ds'
-    DESCRIPTION             = 'This app performs a recursive walk down an input tree, and for each location with a DICOM file, will generate a report in the corresponding location in the output tree.'
-    DOCUMENTATION           = 'https://github.com/FNNDSC/pfdicom_tagExtract'
-    VERSION                 = '1.0.4'
-    ICON                    = '' # url of an icon image
-    LICENSE                 = 'Opensource (MIT)'
-    MAX_NUMBER_OF_WORKERS   = 1  # Override with integer value
-    MIN_NUMBER_OF_WORKERS   = 1  # Override with integer value
-    MAX_CPU_LIMIT           = '' # Override with millicore value as string, e.g. '2000m'
-    MIN_CPU_LIMIT           = '' # Override with millicore value as string, e.g. '2000m'
-    MAX_MEMORY_LIMIT        = '' # Override with string, e.g. '1Gi', '2000Mi'
-    MIN_MEMORY_LIMIT        = '' # Override with string, e.g. '1Gi', '2000Mi'
-    MIN_GPU_LIMIT           = 0  # Override with the minimum number of GPUs, as an integer, for your plugin
-    MAX_GPU_LIMIT           = 0  # Override with the maximum number of GPUs, as an integer, for your plugin
+    ICON                    = ''   # url of an icon image
+    MIN_NUMBER_OF_WORKERS   = 1    # Override with the minimum number of workers as int
+    MAX_NUMBER_OF_WORKERS   = 1    # Override with the maximum number of workers as int
+    MIN_CPU_LIMIT           = 1000 # Override with millicore value as int (1000 millicores == 1 CPU core)
+    MIN_MEMORY_LIMIT        = 200  # Override with memory MegaByte (MB) limit as int
+    MIN_GPU_LIMIT           = 0    # Override with the minimum number of GPUs as int
+    MAX_GPU_LIMIT           = 0    # Override with the maximum number of GPUs as int
 
-    # Fill out this with key-value output descriptive info (such as an output file path
-    # relative to the output dir) that you want to save to the output meta file when
-    # called with the --saveoutputmeta flag
+    # Use this dictionary structure to provide key-value output descriptive information
+    # that may be useful for the next downstream plugin. For example:
+    #
+    # {
+    #   "finalOutputFile":  "final/file.out",
+    #   "viewer":           "genericTextViewer",
+    # }
+    #
+    # The above dictionary is saved when plugin is called with a ``--saveoutputmeta``
+    # flag. Note also that all file paths are relative to the system specified
+    # output directory.
     OUTPUT_META_DICT = {}
- 
+
     def define_parameters(self):
         """
         Define the CLI arguments accepted by this plugin app.
+        Use self.add_argument to specify a new app argument.
         """
         self.add_argument("-i", "--inputFile",
                             help        = "input file",
@@ -128,13 +201,6 @@ class Dcm_tagExtract(ChrisApp):
                             action      = 'store_true',
                             optional    = True,
                             default     = False)
-        self.add_argument("-x", "--man",
-                            help        = "man",
-                            type        = bool,
-                            dest        = 'man',
-                            action      = 'store_true',
-                            optional    = True,
-                            default     = False)
         self.add_argument("-y", "--synopsis",
                             help        = "short synopsis",
                             type        = bool,
@@ -154,19 +220,6 @@ class Dcm_tagExtract(ChrisApp):
                             dest        = 'outputLeafDir',
                             optional    = True,
                             default     = "")
-        self.add_argument("-v", "--verbosity",
-                            help        = "verbosity level for app",
-                            type        = str,
-                            dest        = 'verbosity',
-                            optional    = True,
-                            default     = "0")
-        self.add_argument('--version',
-                            help        = 'if specified, print version number',
-                            type        = bool,
-                            dest        = 'b_version',
-                            action      = 'store_true',
-                            optional    = True,
-                            default     = False)
         self.add_argument("--followLinks",
                             help        = "follow symbolic links",
                             dest        = 'followLinks',
@@ -182,11 +235,13 @@ class Dcm_tagExtract(ChrisApp):
                             optional    = True,
                             default     = False)
 
+
     def run(self, options):
         """
         Define the code to be run by this plugin app.
         """
-
+        print(Gstr_title)
+        print('Version: %s' % self.get_version())
         pf_dicom_tagExtract = pfdicom_tagExtract.pfdicom_tagExtract(
                         inputDir            = options.inputdir,
                         inputFile           = options.inputFile,
@@ -219,8 +274,8 @@ class Dcm_tagExtract(ChrisApp):
                                 d_pfdicom_tagExtract['runTime']
                             )
 
-
-# ENTRYPOINT
-if __name__ == "__main__":
-    app = Dcm_tagExtract()
-    app.launch()
+    def show_man_page(self):
+        """
+        Print the app's man page.
+        """
+        print(Gstr_synopsis)

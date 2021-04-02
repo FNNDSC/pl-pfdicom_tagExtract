@@ -1,52 +1,112 @@
-################################
 pl-pfdicom_tagExtract
-################################
+================================
+
+.. image:: https://img.shields.io/docker/v/fnndsc/pl-pfdicom_tagExtract?sort=semver
+    :target: https://hub.docker.com/r/fnndsc/pl-pfdicom_tagExtract
+
+.. image:: https://img.shields.io/github/license/fnndsc/pl-pfdicom_tagExtract
+    :target: https://github.com/FNNDSC/pl-pfdicom_tagExtract/blob/master/LICENSE
+
+.. image:: https://github.com/FNNDSC/pl-pfdicom_tagExtract/workflows/ci/badge.svg
+    :target: https://github.com/FNNDSC/pl-pfdicom_tagExtract/actions
+
+
+.. contents:: Table of Contents
 
 
 Abstract
-********
+--------
 
-This app performs a recursive walk down an input tree, and for each location with a DICOM file, will generate a report in the corresponding location in the output tree. This page is not the canonical reference for ``pfdicom_tagExtract`` on which this plugin is based. Please see https://github.com/FNNDSC/pfdicom_tagExtract for detail about the actual tag extraction process and the pattern of command line flags. 
+This app performs a recursive walk down an input tree, and for each location with a DICOM file, will generate a report in the corresponding location in the output tree.
 
-Note that the only different between this plugin and the reference ``pfdicom_tagExtract`` is that the reference has explicit flags for ``inputDir`` and ``outputDir`` while this plugin uses positional arguments for the same.
+
+Description
+-----------
+
+``dcm_tagExtract`` is a ChRIS-based application that...
+
+
+Usage
+-----
+
+.. code::
+
+    python dcm_tagExtract.py
+        [-h|--help]
+        [--json] [--man] [--meta]
+        [--savejson <DIR>]
+        [-v|--verbosity <level>]
+        [--version]
+        <inputDir> <outputDir>
+
+
+Arguments
+~~~~~~~~~
+
+.. code::
+
+    [-h] [--help]
+    If specified, show help message and exit.
+    
+    [--json]
+    If specified, show json representation of app and exit.
+    
+    [--man]
+    If specified, print (this) man page and exit.
+
+    [--meta]
+    If specified, print plugin meta data and exit.
+    
+    [--savejson <DIR>] 
+    If specified, save json representation file to DIR and exit. 
+    
+    [-v <level>] [--verbosity <level>]
+    Verbosity level for app. Not used currently.
+    
+    [--version]
+    If specified, print version number and exit. 
+
+
+Getting inline help is:
+
+.. code:: bash
+
+    docker run --rm fnndsc/pl-pfdicom_tagExtract dcm_tagExtract --man
 
 Run
-***
+~~~
 
-Using ``docker run``
-====================
+You need to specify input and output directories using the `-v` flag to `docker run`.
 
-Assign an "input" directory to ``/incoming`` and an "output" directory to ``/outgoing``
 
-.. code-block:: bash
+.. code:: bash
 
-    docker run -it --rm -v $(pwd)/in:/incoming -v $(pwd)/out:/outgoing  \
-            fnndsc/pl-pfdicom_tagextract dcm_tagExtract.py              \
-            -o '%_md5|6_PatientID-%PatientAge'                          \
-            -m 'm:%_nospc|-_ProtocolName.jpg'                           \
-            -s 3:none --useIndexhtml                                    \
-            -t raw,json,html,dict,col,csv                               \
-            --threads 0 -v 2 -e .dcm                                    \
-            /incoming /outgoing
+    docker run --rm -u $(id -u)                             \
+        -v $(pwd)/in:/incoming -v $(pwd)/out:/outgoing      \
+        fnndsc/pl-pfdicom_tagExtract dcm_tagExtract                        \
+        /incoming /outgoing
 
-Assuming that ``$(pwd)/in`` contains a tree of DICOM files, then the above will generate, for each leaf directory node in ``$(pwd)/in`` that contains files satisfying the search constraint of ending in ``.dcm``, a set of text file reports based on the DICOM tags. Also, an ``index.html`` will be generated containing an image of the best guess of the center of the image space in that particular directory.
 
-Debug
-*****
+Development
+-----------
 
-Invariably, some debugging will be required. In order to debug efficiently, map the following into their respective locations in the container:
+Build the Docker container:
 
-.. code-block:: bash
+.. code:: bash
 
-    docker run -it --rm -v $(pwd)/in:/incoming -v $(pwd)/out:/outgoing      \
-            -v $(pwd)/dcm_tagExtract/dcm_tagExtract.py:/usr/src/dcm_tagExtract/dcm_tagExtract.py  \
-            -v $(pwd)/dcm_tagExtract/pfdicom_tagExtract.py:/usr/local/lib/python3.5/dist-packages/pfdicom_tagExtract/pfdicom_tagExtract.py \
-            fnndsc/pl-pfdicom_tagextract dcm_tagExtract.py                  \
-            -o '%_md5|6_PatientID-%PatientAge'                              \
-            -m 'm:%_nospc|-_ProtocolName.jpg'                               \
-            -s 3:none --useIndexhtml                                        \
-            -t raw,json,html,dict,col,csv                                   \
-            --threads 0 -v 2 -e .dcm                                        \
-            /incoming /outgoing
+    docker build -t local/pl-pfdicom_tagExtract .
 
-This assumes that the source code the underlying ``pfdicom_tagExtract.py`` module is accessible as shown.
+Run unit tests:
+
+.. code:: bash
+
+    docker run --rm local/pl-pfdicom_tagExtract nosetests
+
+Examples
+--------
+
+Put some examples here!
+
+
+.. image:: https://raw.githubusercontent.com/FNNDSC/cookiecutter-chrisapp/master/doc/assets/badge/light.png
+    :target: https://chrisstore.co
