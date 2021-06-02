@@ -31,11 +31,7 @@ Gstr_title = r"""
 
 Gstr_synopsis = """
 
-(Edit this in-line help for app specifics. At a minimum, the 
-flags below are supported -- in the case of DS apps, both
-positional arguments <inputDir> and <outputDir>; for FS and TS apps
-only <outputDir> -- and similarly for <in> <out> directories
-where necessary.)
+
 
     NAME
 
@@ -50,6 +46,23 @@ where necessary.)
             [--meta]                                                    \\
             [--savejson <DIR>]                                          \\
             [-v <level>] [--verbosity <level>]                          \\
+            [-i|--inputFile <inputFile>]                                \\
+            [-e|--extension <extension>]                                \\
+            [-F|--tagFile <tags>]                                       \\
+            [-T|--tagList <list_of_tags>]                               \\
+            [-r]                                                        \\
+            [-m|--imageFile <imageFile>]                                \\
+            [-s|--imageScale <imageScale>]                              \\
+            [-o|--outputFileStem <outputFileStem>]                      \\
+            [-t|--outputFileType <list_of_output_types>]                \\
+            [--printElapsedTime]                                        \\
+            [--useIndexhtml]                                            \\
+            [-p|--printToScreen]                                        \\
+            [-y|--synopsis]                                             \\
+            [--threads]                                                 \\
+            [--outputLeafDir]                                           \\
+            [--followLinks]                                             \\
+            [--jsonReturn]                                              \\
             [--version]                                                 \\
             <inputDir>                                                  \\
             <outputDir> 
@@ -65,7 +78,7 @@ where necessary.)
 
     DESCRIPTION
 
-        `dcm_tagExtract.py` ...
+        `dcm_tagExtract.py` This app performs a recursive walk down an input tree, and for each location with a DICOM file, will generate a report in the corresponding location in the output tree
 
     ARGS
 
@@ -86,6 +99,97 @@ where necessary.)
         
         [-v <level>] [--verbosity <level>]
         Verbosity level for app. Not used currently.
+        
+        [-i|--inputFile <inputFile>]   
+    	An optional <inputFile> specified relative to the <inputDir>. If
+    	specified, then do not perform a directory walk, but convert only
+    	this file.
+                          
+    	[-e|--extension <extension>]  
+    	An optional extension to filter the DICOM files of interest from the
+    	<inputDir>.
+                              
+    	[-F|--tagFile <tags>]          
+    	Read the tags, one-per-line in <tagFile>, and print the
+    	corresponding tag information in the DICOM <inputFile>.
+                           
+    	[-T|--tagList <list_of_tags>]   
+    	Read the list of comma-separated tags in <tagList>, and print the
+    	corresponding tag information parsed from the DICOM <inputFile>.  
+                              
+    	[-r]
+    	If specified, display raw tags                     
+                                       
+    	[-m|--imageFile <imageFile>]    
+    	If specified, also convert the <inputFile> to <imageFile>. If the
+    	name is preceded by an index and colon, then convert this indexed
+    	file in the particular <inputDir>.  
+                              
+    	[-s|--imageScale <imageScale>]  
+    	If an image conversion is specified, this flag will scale the image
+    	by <factor> and use an interpolation <order>. This is useful in
+    	increasing the size of images for the html output.
+
+    	Note that certain interpolation choices can result in a significant
+    	slowdown!
+
+        	interpolation order:
+
+        	'none', 'nearest', 'bilinear', 'bicubic', 'spline16',
+        	'spline36', 'hanning', 'hamming', 'hermite', 'kaiser', 'quadric',
+        	'catrom', 'gaussian', 'bessel', 'mitchell', 'sinc', 'lanczos'
+
+    	[-o|--outputFileStem <outputFileStem>]
+    	The output file stem to store data. This should *not* have a file
+    	extension, or rather, any "." in the name are considered part of
+    	the stem and are *not* considered extensions.                            
+                       
+    	[-t|--outputFileType <list_of_output_types>]    
+    	A comma specified list of output types. These can be:
+
+    		o <type>    <ext>       <desc>
+    		o raw       -raw.txt    the raw internal dcm structure to string
+    		o json      .json       a json representation
+    		o html      .html       an html representation with optional image
+    		o dict      -dict.txt   a python dictionary
+    		o col       -col.txt    a two-column text representation (tab sep)
+    		o csv       .csv        a csv representation
+
+	Note that if not specified, a default type of 'raw' is assigned.          
+	 
+    	[--printElapsedTime] 
+    	If specified, print run time    
+                                       
+    	[--useIndexhtml]  
+    	If specified, force html file to be called index.html           
+                                   
+    	[-p|--printToScreen]  
+    	If specified, will print tags to screen.
+                                          
+    	[-y|--synopsis]      
+    	Show brief help.
+                                           
+    	[--threads]      
+                                               
+    	[--outputLeafDir]    
+    	If specified, will apply the <outputLeafDirFormat> to the output
+    	directories containing data. This is useful to blanket describe
+    	final output directories with some descriptive text, such as
+    	'anon' or 'preview'.
+
+    	This is a formatting spec, so
+
+        	--outputLeafDir 'preview-%s'
+
+    	where %s is the original leaf directory node, will prefix each
+    	final directory containing output with the text 'preview-' which
+    	can be useful in describing some features of the output set.
+                                     
+    	[--followLinks]     
+    	If specified, follow symbolic links.
+                                            
+    	[--jsonReturn]    
+        If specified, output a JSON dump of final return.
         
         [--version]
         If specified, print version number and exit. 
@@ -261,7 +365,7 @@ class Dcm_tagExtract(ChrisApp):
                         followLinks         = options.followLinks,
                         json                = options.jsonReturn   
                     )
-        if options.b_version:
+        if options.version:
             print('Plugin Version: %s' % Dcm_tagExtract.VERSION)
             print('Internal pfdicom_tagExtract Version: %s' % pf_dicom_tagExtract.str_version)
             sys.exit(0)
