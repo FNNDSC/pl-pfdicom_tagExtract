@@ -46,6 +46,23 @@ Gstr_synopsis = """
             [--meta]                                                    \\
             [--savejson <DIR>]                                          \\
             [-v <level>] [--verbosity <level>]                          \\
+            [-i|--inputFile <inputFile>]                                \\
+            [-e|--extension <extension>]                                \\
+            [-F|--tagFile <tags>]                                       \\
+            [-T|--tagList <list_of_tags>]                               \\
+            [-r]                                                        \\
+            [-m|--imageFile <imageFile>]                                \\
+            [-s|--imageScale <imageScale>]                              \\
+            [-o|--outputFileStem <outputFileStem>]                      \\
+            [-t|--outputFileType <list_of_output_types>]                \\
+            [--printElapsedTime]                                        \\
+            [--useIndexhtml]                                            \\
+            [-p|--printToScreen]                                        \\
+            [-y|--synopsis]                                             \\
+            [--threads]                                                 \\
+            [--outputLeafDir]                                           \\
+            [--followLinks]                                             \\
+            [--jsonReturn]                                              \\
             [--version]                                                 \\
             <inputDir>                                                  \\
             <outputDir> 
