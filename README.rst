@@ -98,7 +98,8 @@ Arguments
     corresponding tag information parsed from the DICOM <inputFile>.  
                               
     [-r]                     
-                                       
+    If specified, display raw tags      
+                                
     [-m|--imageFile <imageFile>]    
     If specified, also convert the <inputFile> to <imageFile>. If the
     name is preceded by an index and colon, then convert this indexed
@@ -137,9 +138,11 @@ Arguments
 	Note that if not specified, a default type of 'raw' is assigned.          
 	 
     [--printElapsedTime]     
+    If specified, print run time
                                        
     [--useIndexhtml]             
-                                   
+    If specified, force html file to be called index.html   
+                                    
     [-p|--printToScreen]  
     If specified, will print tags to screen.
                                           
@@ -166,7 +169,8 @@ Arguments
     If specified, follow symbolic links.
                                             
     [--jsonReturn]   
-          
+    If specified, output a JSON dump of final return.  
+       
     [--version]
     If specified, print version number and exit. 
 
