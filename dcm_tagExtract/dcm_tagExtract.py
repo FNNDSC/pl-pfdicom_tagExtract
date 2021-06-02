@@ -31,11 +31,7 @@ Gstr_title = r"""
 
 Gstr_synopsis = """
 
-(Edit this in-line help for app specifics. At a minimum, the 
-flags below are supported -- in the case of DS apps, both
-positional arguments <inputDir> and <outputDir>; for FS and TS apps
-only <outputDir> -- and similarly for <in> <out> directories
-where necessary.)
+
 
     NAME
 
@@ -65,7 +61,7 @@ where necessary.)
 
     DESCRIPTION
 
-        `dcm_tagExtract.py` ...
+        `dcm_tagExtract.py` This app performs a recursive walk down an input tree, and for each location with a DICOM file, will generate a report in the corresponding location in the output tree
 
     ARGS
 
@@ -261,7 +257,7 @@ class Dcm_tagExtract(ChrisApp):
                         followLinks         = options.followLinks,
                         json                = options.jsonReturn   
                     )
-        if options.b_version:
+        if options.version:
             print('Plugin Version: %s' % Dcm_tagExtract.VERSION)
             print('Internal pfdicom_tagExtract Version: %s' % pf_dicom_tagExtract.str_version)
             sys.exit(0)

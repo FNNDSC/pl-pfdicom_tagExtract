@@ -107,6 +107,18 @@ Examples
 
 Put some examples here!
 
+.. code-block:: bash
+    docker run -it --rm -v $(pwd)/in:/incoming -v $(pwd)/out:/outgoing      \
+            -v $(pwd)/dcm_tagExtract/dcm_tagExtract.py:/usr/src/dcm_tagExtract/dcm_tagExtract.py  \
+            -v $(pwd)/dcm_tagExtract/pfdicom_tagExtract.py:/usr/local/lib/python3.5/dist-packages/pfdicom_tagExtract/pfdicom_tagExtract.py \
+            fnndsc/pl-pfdicom_tagextract dcm_tagExtract.py                  \
+            -o '%_md5|6_PatientID-%PatientAge'                              \
+            -m 'm:%_nospc|-_ProtocolName.jpg'                               \
+            -s 3:none --useIndexhtml                                        \
+            -t raw,json,html,dict,col,csv                                   \
+            --threads 0 -v 2 -e .dcm                                        \
+            /incoming /outgoing
+
 
 .. image:: https://raw.githubusercontent.com/FNNDSC/cookiecutter-chrisapp/master/doc/assets/badge/light.png
     :target: https://chrisstore.co
