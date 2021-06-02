@@ -23,7 +23,7 @@ This app performs a recursive walk down an input tree, and for each location wit
 Description
 -----------
 
-``dcm_tagExtract`` is a ChRIS-based application that...
+``dcm_tagExtract`` is a ChRIS-based application that generates reports in various formats (txt, html, etc) based on parsing DICOM meta data (i.e. DICOM tags).
 
 
 Usage
@@ -36,6 +36,23 @@ Usage
         [--json] [--man] [--meta]
         [--savejson <DIR>]
         [-v|--verbosity <level>]
+        [-i|--inputFile <inputFile>]                                
+        [-e|--extension <extension>]                                
+        [-F|--tagFile <tags>]                                       
+        [-T|--tagList <list_of_tags>]                               
+        [-r]                                                        
+        [-m|--imageFile <imageFile>]                                
+        [-s|--imageScale <imageScale>]                              
+        [-o|--outputFileStem <outputFileStem>]                      
+        [-t|--outputFileType <list_of_output_types>]                
+        [--printElapsedTime]                                        
+        [--useIndexhtml]                                            
+        [-p|--printToScreen]                                        
+        [-y|--synopsis]                                             
+        [--threads]                                                 
+        [--outputLeafDir]                                           
+        [--followLinks]                                             
+        [--jsonReturn]                                              
         [--version]
         <inputDir> <outputDir>
 
@@ -63,6 +80,40 @@ Arguments
     [-v <level>] [--verbosity <level>]
     Verbosity level for app. Not used currently.
     
+    [-i|--inputFile <inputFile>]   
+                                 
+    [-e|--extension <extension>]  
+                                  
+    [-F|--tagFile <tags>]          
+                                 
+    [-T|--tagList <list_of_tags>]   
+                                
+    [-r]                     
+                                       
+    [-m|--imageFile <imageFile>]    
+                                
+    [-s|--imageScale <imageScale>]  
+                                
+    [-o|--outputFileStem <outputFileStem>]   
+                       
+    [-t|--outputFileType <list_of_output_types>]    
+                
+    [--printElapsedTime]     
+                                       
+    [--useIndexhtml]             
+                                   
+    [-p|--printToScreen]  
+                                          
+    [-y|--synopsis]      
+                                           
+    [--threads]      
+                                               
+    [--outputLeafDir]    
+                                           
+    [--followLinks]     
+                                            
+    [--jsonReturn]   
+          
     [--version]
     If specified, print version number and exit. 
 
