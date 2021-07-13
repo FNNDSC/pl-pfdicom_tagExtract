@@ -78,7 +78,9 @@ Gstr_synopsis = """
 
     DESCRIPTION
 
-        `dcm_tagExtract.py` This app performs a recursive walk down an input tree, and for each location with a DICOM file, will generate a report in the corresponding location in the output tree
+        `dcm_tagExtract.py` is a ChRIS-based application
+         that generates reports in various formats (txt, html, etc) 
+         based on parsing DICOM meta data (i.e. DICOM tags).
 
     ARGS
 
@@ -198,7 +200,8 @@ Gstr_synopsis = """
 
 class Dcm_tagExtract(ChrisApp):
     """
-    This app performs a recursive walk down an input tree, and for each location with a DICOM file, will generate a report in the corresponding location in the output tree.
+    This app performs a recursive walk down an input tree, and for each location
+    with a DICOM file, generates a report in the corresponding location in the output tree.
     """
     PACKAGE                 = __package__
     TITLE                   = 'A DICOM tag extractor/reporting tool. Generates reports based on DICOM header information.'
