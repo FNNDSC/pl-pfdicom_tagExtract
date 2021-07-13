@@ -1,8 +1,8 @@
 pl-pfdicom_tagExtract
 ================================
 
-.. image:: https://img.shields.io/docker/v/fnndsc/pl-pfdicom_tagExtract?sort=semver
-    :target: https://hub.docker.com/r/fnndsc/pl-pfdicom_tagExtract
+.. image:: https://img.shields.io/docker/v/fnndsc/pl-pfdicom_tagextract?sort=semver
+    :target: https://hub.docker.com/r/fnndsc/pl-pfdicom_tagextract
 
 .. image:: https://img.shields.io/github/license/fnndsc/pl-pfdicom_tagExtract
     :target: https://github.com/FNNDSC/pl-pfdicom_tagExtract/blob/master/LICENSE
