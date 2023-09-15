@@ -11,7 +11,7 @@
 from chrisapp.base import ChrisApp
 
 # import the pfdicom_tagExtract module
-import  pfdicom_tagExtract
+from pfdicom_tagExtract import  pfdicom_tagExtract
 import  pudb
 import  sys
 import os
@@ -239,12 +239,18 @@ class Dcm_tagExtract(ChrisApp):
                             dest        = 'inputFile',
                             optional    = True,
                             default     = '')
-        self.add_argument("-e", "--extension",
+        self.add_argument("-e", "--fileFilter",
                             help        = "DICOM file extension",
                             type        = str,
-                            dest        = 'extension',
+                            dest        = 'fileFilter',
                             optional    = True,
                             default     = '')
+        self.add_argument("-d", "--dirFilter",
+                          help          = "a list of comma separated string filters to apply across the input dir space",
+                          type          = str,
+                          dest          = 'dirFilter',
+                          optional      = True,
+                          default       = '')
         self.add_argument("-F", "--tagFile",
                             help        = "file containing tags to parse",
                             type        = str,
@@ -277,7 +283,7 @@ class Dcm_tagExtract(ChrisApp):
                             default     = '')
         self.add_argument("-o", "--outputFileStem",
                             help        = "output file",
-                            optional    = False,
+                            optional    = True,
                             type        = str,
                             default     = "",
                             dest        = 'outputFileStem')
@@ -347,27 +353,31 @@ class Dcm_tagExtract(ChrisApp):
         """
         Define the code to be run by this plugin app.
         """
+        #args = parserDS.parse_args()
         print(Gstr_title)
         print('Version: %s' % self.get_version())
-        pf_dicom_tagExtract = pfdicom_tagExtract.pfdicom_tagExtract(
-                        inputDir            = options.inputdir,
-                        inputFile           = options.inputFile,
-                        extension           = options.extension,
-                        outputDir           = options.outputdir,
-                        outputFileStem      = options.outputFileStem,
-                        outputLeafDir       = options.outputLeafDir,
-                        useIndexhtml        = options.useIndexhtml,
-                        outputFileType      = options.outputFileType,
-                        tagFile             = options.tagFile,
-                        tagList             = options.tagList,
-                        printToScreen       = options.printToScreen,
-                        threads             = options.threads,
-                        imageFile           = options.imageFile,
-                        imageScale          = options.imageScale,
-                        verbosity           = options.verbosity,
-                        followLinks         = options.followLinks,
-                        json                = options.jsonReturn   
-                    )
+        options.str_desc = Gstr_synopsis
+        options.syslog = ""
+        # pf_dicom_tagExtract = pfdicom_tagExtract.pfdicom_tagExtract(
+        #                 inputDir            = options.inputdir,
+        #                 inputFile           = options.inputFile,
+        #                 extension           = options.extension,
+        #                 outputDir           = options.outputdir,
+        #                 outputFileStem      = options.outputFileStem,
+        #                 outputLeafDir       = options.outputLeafDir,
+        #                 useIndexhtml        = options.useIndexhtml,
+        #                 outputFileType      = options.outputFileType,
+        #                 tagFile             = options.tagFile,
+        #                 tagList             = options.tagList,
+        #                 printToScreen       = options.printToScreen,
+        #                 threads             = options.threads,
+        #                 imageFile           = options.imageFile,
+        #                 imageScale          = options.imageScale,
+        #                 verbosity           = options.verbosity,
+        #                 followLinks         = options.followLinks,
+        #                 json                = options.jsonReturn
+        #             )
+        pf_dicom_tagExtract = pfdicom_tagExtract.pfdicom_tagExtract(vars(options))
         if options.version:
             print('Plugin Version: %s' % Dcm_tagExtract.VERSION)
             print('Internal pfdicom_tagExtract Version: %s' % pf_dicom_tagExtract.str_version)
