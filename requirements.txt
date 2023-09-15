@@ -15,7 +15,7 @@ Pillow==8.4.0
 pudb==2021.1
 pydicom==2.2.2
 pydicom-ext==0.6.1
-Pygments==2.10.0
+Pygments==2.15.0
 pyparsing==2.4.7
 python-dateutil==2.8.2
 six==1.16.0
