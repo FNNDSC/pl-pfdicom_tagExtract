@@ -11,7 +11,7 @@ pfdicom==2.0.12
 pfdicom-tagExtract==3.1.0
 pfmisc==2.2.8
 pftree==3.4.2
-Pillow==8.4.0
+Pillow==9.3.0
 pudb==2021.1
 pydicom==2.2.2
 pydicom-ext==0.6.1
