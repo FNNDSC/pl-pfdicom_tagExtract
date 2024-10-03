@@ -6,12 +6,12 @@ with open(path.join(path.dirname(path.abspath(__file__)), 'README.rst')) as f:
 
 setup(
     name             = 'dcm_tagExtract',
-    version          = '3.2.3',
+    version          = '3.2.4',
     description      = 'This app performs a recursive walk down an input tree, and for each location with a DICOM file, will generate a report in the corresponding location in the output tree.',
     long_description = readme,
     author           = 'Sandip Samal',
     author_email     = 'sandip.samal@childrens.harvard.edu',
-    url              = 'https://github.com/FNNDSC/pfdicom_tagExtract',
+    url              = 'https://github.com/FNNDSC/pl-pfdicom_tagExtract#readme',
     packages         = ['dcm_tagExtract'],
     install_requires = ['chrisapp','pillow','pfdicom_tagExtract'],
     test_suite       = 'nose.collector',
