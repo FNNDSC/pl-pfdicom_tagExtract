@@ -6,7 +6,7 @@ with open(path.join(path.dirname(path.abspath(__file__)), 'README.rst')) as f:
 
 setup(
     name             = 'dcm_tagExtract',
-    version          = '3.2.1',
+    version          = '3.2.2',
     description      = 'This app performs a recursive walk down an input tree, and for each location with a DICOM file, will generate a report in the corresponding location in the output tree.',
     long_description = readme,
     author           = 'Sandip Samal',
